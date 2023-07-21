@@ -2182,10 +2182,10 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: Walk
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: Attack
   m_SynchronizeLayers:
   - SynchronizeType: 0

@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class Player : MonoBehaviourPunCallbacks
 {
-    public float speed = 2.0f;
+    public float speed = 4.0f;
     public Animator anim;
     public PhotonView pv;
 
@@ -23,7 +23,9 @@ public class Player : MonoBehaviourPunCallbacks
     {
         if (pv.IsMine)
         {
-            bool bmove = UpdateMove();
+            bool bMove = UpdateMove();
+            UpdateAnimation(bMove);
+            UpdateAttack();
         }
     }
 
@@ -41,15 +43,37 @@ public class Player : MonoBehaviourPunCallbacks
             transform.rotation = Quaternion.LookRotation(dir);
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
-            anim.SetBool("Walk", true);
         }
-        else
-        {
-            anim.SetBool("Walk", false);
-        }
+        
 
 
         return bPress;
     }
-    
+
+    void UpdateAnimation(bool bMove)
+    {
+        anim.SetBool("Walk", bMove);
+    }
+
+    void UpdateAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetTrigger("Attack");
+            Shoot();
+        }
+    }
+
+    void Shoot()
+    {
+        Vector3 pos = transform.position + new Vector3(0, 1.6f, 0) + transform.forward * 2.2f;
+
+        GameObject o = PhotonNetwork.Instantiate("Bullet", pos, Quaternion.identity);
+
+        o.GetComponent<PhotonView>().RPC("SetDirection", RpcTarget.All, transform.forward);
+    }
+    public void DestroyPlayer()
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
 }
