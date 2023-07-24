@@ -34,7 +34,7 @@ public class Network : MonoBehaviourPunCallbacks
         InitPlayer();
     }
 
-    void InitPlayer()
+    public void InitPlayer()
     {
         PhotonNetwork.Instantiate("Player", new Vector3(0, 0, 0), Quaternion.identity);
     }

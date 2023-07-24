@@ -87,5 +87,7 @@ public class Player : MonoBehaviourPunCallbacks
     public void DestroyPlayer()
     {
         PhotonNetwork.Destroy(gameObject);
+
+        GameObject.Find("Canvas").transform.Find("Button Retry").gameObject.SetActive(true);
     }
 }
