@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviourPunCallbacks
@@ -11,11 +12,20 @@ public class Player : MonoBehaviourPunCallbacks
     public Animator anim;
     public PhotonView pv;
 
+    public Text textName;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (pv.IsMine)
+        {
+            textName.text = PhotonNetwork.NickName;
+        }
+        else
+        {
+            textName.text = pv.Owner.NickName;
+        }
     }
 
     // Update is called once per frame
@@ -26,6 +36,8 @@ public class Player : MonoBehaviourPunCallbacks
             bool bMove = UpdateMove();
             UpdateAnimation(bMove);
             UpdateAttack();
+
+            Camera.main.GetComponent<FollowCamera>().p = transform;
         }
     }
 
